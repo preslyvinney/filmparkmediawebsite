@@ -51,22 +51,30 @@ function RevealOnScroll({ children, delay = 0 }: { children: React.ReactNode; de
   );
 }
 
-function PortfolioCard({ item, idx }: { item: PortfolioItem; idx: number }) {
+function PortfolioCard({
+  item,
+  idx,
+  onOpen,
+}: {
+  item: PortfolioItem;
+  idx: number;
+  onOpen: (item: PortfolioItem) => void;
+}) {
   const [flipped, setFlipped] = useState(false);
 
   return (
     <div className="group text-left [perspective:1600px]">
-      <button
-        type="button"
-        onClick={() => setFlipped((prev) => !prev)}
-        className="w-full"
-        aria-pressed={flipped}
-      >
-        <div className="relative z-10 h-full min-h-[31rem] overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))] p-2 shadow-[0_30px_80px_rgba(0,0,0,0.45)] transition duration-500 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_35px_100px_rgba(0,0,0,0.6)]">
-          <div className="pointer-events-none absolute inset-0 opacity-[0.06] [background-image:radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] [background-size:20px_20px]" />
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-white/[0.05] to-transparent" />
-          <div className="pointer-events-none absolute inset-0 rounded-[2rem] opacity-0 blur-2xl transition duration-500 group-hover:opacity-100" style={{ background: "radial-gradient(circle at top, rgba(251,191,36,0.14), transparent 40%), radial-gradient(circle at bottom right, rgba(236,72,153,0.12), transparent 38%), radial-gradient(circle at bottom left, rgba(34,211,238,0.10), transparent 36%)" }} />
+      <div className="relative z-10 h-full min-h-[31rem] overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))] p-2 shadow-[0_30px_80px_rgba(0,0,0,0.45)] transition duration-500 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_35px_100px_rgba(0,0,0,0.6)]">
+        <div className="pointer-events-none absolute inset-0 opacity-[0.06] [background-image:radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] [background-size:20px_20px]" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-white/[0.05] to-transparent" />
+        <div className="pointer-events-none absolute inset-0 rounded-[2rem] opacity-0 blur-2xl transition duration-500 group-hover:opacity-100" style={{ background: "radial-gradient(circle at top, rgba(251,191,36,0.14), transparent 40%), radial-gradient(circle at bottom right, rgba(236,72,153,0.12), transparent 38%), radial-gradient(circle at bottom left, rgba(34,211,238,0.10), transparent 36%)" }} />
 
+        <button
+          type="button"
+          onClick={() => setFlipped((prev) => !prev)}
+          className="block w-full text-left"
+          aria-pressed={flipped}
+        >
           <div className={`relative h-[22rem] w-full [transform-style:preserve-3d] transition duration-700 ease-out md:group-hover:[transform:rotateY(180deg)] ${flipped ? "[transform:rotateY(180deg)]" : ""}`}>
             <div className="absolute inset-0 overflow-hidden rounded-[1.5rem] [backface-visibility:hidden]">
               <div className={`h-full w-full ${item.cardBg}`}>
@@ -100,26 +108,34 @@ function PortfolioCard({ item, idx }: { item: PortfolioItem; idx: number }) {
               </div>
             </div>
           </div>
+        </button>
 
-          <div className="relative z-10 px-4 pb-4 pt-5">
-            <div className="mb-4 flex items-center justify-between gap-4">
-              <div>
-                <p className="text-[11px] uppercase tracking-[0.26em] text-amber-300/90">0{idx + 1} • {item.category}</p>
-                <h3 className="mt-2 text-2xl font-bold tracking-tight text-white">{item.title}</h3>
-              </div>
-              <div className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/55 backdrop-blur-sm">
-                Tap or hover to flip
-              </div>
+        <div className="relative z-10 px-4 pb-4 pt-5">
+          <div className="mb-4 flex items-center justify-between gap-4">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.26em] text-amber-300/90">0{idx + 1} • {item.category}</p>
+              <h3 className="mt-2 text-2xl font-bold tracking-tight text-white">{item.title}</h3>
             </div>
-            <p className="max-w-sm leading-7 text-white/68">{item.desc}</p>
+            <div className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/55 backdrop-blur-sm">
+              Tap or hover to flip
+            </div>
           </div>
+          <p className="max-w-sm leading-7 text-white/68">{item.desc}</p>
+          <button
+            type="button"
+            onClick={() => onOpen(item)}
+            className="mt-6 inline-flex rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
+          >
+            Open full view
+          </button>
         </div>
-      </button>
+      </div>
     </div>
   );
 }
 
 export default function FilmParkMediaWebsite() {
+  const [activeProject, setActiveProject] = useState<PortfolioItem | null>(null);
   const services: Service[] = [
     {
       title: "Commercial Work",
@@ -185,6 +201,15 @@ export default function FilmParkMediaWebsite() {
       cardBg: "bg-black",
     },
   ];
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setActiveProject(null);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
 
   return (
     <>
@@ -451,7 +476,7 @@ export default function FilmParkMediaWebsite() {
                   <div className="max-w-2xl">
                     <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-300">Selected Work</p>
                     <h2 className="mt-3 text-4xl font-black tracking-tight md:text-5xl">A sharper, more cinematic look at the work.</h2>
-                    <p className="mt-4 max-w-xl text-lg leading-8 text-white/68">Think of this like a premium browse screen for Film Park Media. Tap in, flip cards, and get a better feel for the range, tone, and visual polish behind each project.</p>
+                    <p className="mt-4 max-w-xl text-lg leading-8 text-white/68">Think of this like a premium browse screen for Film Park Media. Tap in, flip cards, and open each project for a bigger, cleaner full-screen look.</p>
                   </div>
                   <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white/55 backdrop-blur-sm">Tap on mobile. Hover on desktop.</div>
                 </div>
@@ -473,7 +498,7 @@ export default function FilmParkMediaWebsite() {
                 {portfolio.map((item, idx) => (
                   <RevealOnScroll key={item.title} delay={idx * 90}>
                     <div id={`portfolio-card-${idx}`}>
-                      <PortfolioCard item={item} idx={idx} />
+                      <PortfolioCard item={item} idx={idx} onOpen={setActiveProject} />
                     </div>
                   </RevealOnScroll>
                 ))}
@@ -543,6 +568,57 @@ export default function FilmParkMediaWebsite() {
               </RevealOnScroll>
             </div>
           </section>
+
+          {activeProject && (
+            <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/80 px-4 py-6 backdrop-blur-md" onClick={() => setActiveProject(null)}>
+              <div className="relative max-h-[90vh] w-full max-w-6xl overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02)),#07090f] shadow-[0_40px_120px_rgba(0,0,0,0.7)]" onClick={(event) => event.stopPropagation()}>
+                <div className="flex items-center justify-between border-b border-white/10 px-5 py-4 md:px-7">
+                  <div>
+                    <p className="text-[11px] uppercase tracking-[0.24em] text-amber-300/90">{activeProject.category}</p>
+                    <h3 className="mt-1 text-2xl font-bold tracking-tight text-white md:text-3xl">{activeProject.title}</h3>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setActiveProject(null)}
+                    className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
+                  >
+                    Close
+                  </button>
+                </div>
+
+                <div className="grid gap-0 md:grid-cols-2">
+                  <div className="border-b border-white/10 bg-black md:border-b-0 md:border-r">
+                    <div className="flex items-center justify-between px-5 py-3 text-xs uppercase tracking-[0.22em] text-white/50 md:px-7">
+                      <span>Frame One</span>
+                    </div>
+                    <div className="flex h-[38vh] items-center justify-center bg-black px-4 pb-4 md:h-[64vh] md:px-6 md:pb-6">
+                      <img
+                        src={activeProject.imageFront}
+                        alt={`${activeProject.title} frame one`}
+                        className={`max-h-full w-full ${activeProject.fitFront} object-center`}
+                      />
+                    </div>
+                  </div>
+                  <div className="bg-black">
+                    <div className="flex items-center justify-between px-5 py-3 text-xs uppercase tracking-[0.22em] text-white/50 md:px-7">
+                      <span>Frame Two</span>
+                    </div>
+                    <div className="flex h-[38vh] items-center justify-center bg-black px-4 pb-4 md:h-[64vh] md:px-6 md:pb-6">
+                      <img
+                        src={activeProject.imageBack}
+                        alt={`${activeProject.title} frame two`}
+                        className={`max-h-full w-full ${activeProject.fitBack} object-center`}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="border-t border-white/10 px-5 py-5 md:px-7">
+                  <p className="max-w-2xl text-base leading-7 text-white/72">{activeProject.desc}</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>
