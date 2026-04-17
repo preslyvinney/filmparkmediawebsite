@@ -16,6 +16,7 @@ type PortfolioItem = {
   fitFront: string;
   fitBack: string;
   cardBg: string;
+  video?: string;
 };
 
 function RevealOnScroll({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -169,6 +170,7 @@ export default function FilmParkMediaWebsite() {
       fitFront: "object-contain",
       fitBack: "object-contain",
       cardBg: "bg-black",
+      video: "/videos/commercial.mp4",
     },
     {
       title: "Wedding Films",
@@ -179,6 +181,7 @@ export default function FilmParkMediaWebsite() {
       fitFront: "object-contain",
       fitBack: "object-contain",
       cardBg: "bg-black",
+      video: "/videos/wedding.mp4",
     },
     {
       title: "Southern Miss Football",
@@ -189,6 +192,7 @@ export default function FilmParkMediaWebsite() {
       fitFront: "object-contain",
       fitBack: "object-contain",
       cardBg: "bg-black",
+      video: "/videos/sports.mp4",
     },
     {
       title: "Short Form Content",
@@ -199,6 +203,7 @@ export default function FilmParkMediaWebsite() {
       fitFront: "object-cover",
       fitBack: "object-cover",
       cardBg: "bg-black",
+      video: "/videos/shortform.mp4",
     },
   ];
 
@@ -586,35 +591,77 @@ export default function FilmParkMediaWebsite() {
                   </button>
                 </div>
 
-                <div className="grid gap-0 md:grid-cols-2">
-                  <div className="border-b border-white/10 bg-black md:border-b-0 md:border-r">
+                <div className="grid gap-0 xl:grid-cols-[1.15fr_0.85fr]">
+                  <div className="border-b border-white/10 bg-black xl:border-b-0 xl:border-r">
                     <div className="flex items-center justify-between px-5 py-3 text-xs uppercase tracking-[0.22em] text-white/50 md:px-7">
-                      <span>Frame One</span>
+                      <span>{activeProject.video ? "Highlight Reel" : "Frame One"}</span>
                     </div>
-                    <div className="flex h-[38vh] items-center justify-center bg-black px-4 pb-4 md:h-[64vh] md:px-6 md:pb-6">
-                      <img
-                        src={activeProject.imageFront}
-                        alt={`${activeProject.title} frame one`}
-                        className={`max-h-full w-full ${activeProject.fitFront} object-center`}
-                      />
+                    <div className="flex h-[34vh] items-center justify-center bg-black px-4 pb-4 md:h-[58vh] md:px-6 md:pb-6">
+                      {activeProject.video ? (
+                        <video
+                          src={activeProject.video}
+                          className="h-full w-full rounded-[1rem] object-contain"
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                          controls
+                          poster={activeProject.imageFront}
+                        />
+                      ) : (
+                        <img
+                          src={activeProject.imageFront}
+                          alt={`${activeProject.title} frame one`}
+                          className={`max-h-full w-full ${activeProject.fitFront} object-center`}
+                        />
+                      )}
                     </div>
                   </div>
-                  <div className="bg-black">
-                    <div className="flex items-center justify-between px-5 py-3 text-xs uppercase tracking-[0.22em] text-white/50 md:px-7">
-                      <span>Frame Two</span>
+
+                  <div className="grid gap-0 md:grid-cols-2 xl:grid-cols-1">
+                    <div className="border-b border-white/10 bg-black md:border-r xl:border-r-0">
+                      <div className="flex items-center justify-between px-5 py-3 text-xs uppercase tracking-[0.22em] text-white/50 md:px-7">
+                        <span>Frame One</span>
+                      </div>
+                      <div className="flex h-[28vh] items-center justify-center bg-black px-4 pb-4 md:h-[29vh] md:px-6 md:pb-6 xl:h-[29vh]">
+                        <img
+                          src={activeProject.imageFront}
+                          alt={`${activeProject.title} frame one`}
+                          className={`max-h-full w-full ${activeProject.fitFront} object-center`}
+                        />
+                      </div>
                     </div>
-                    <div className="flex h-[38vh] items-center justify-center bg-black px-4 pb-4 md:h-[64vh] md:px-6 md:pb-6">
-                      <img
-                        src={activeProject.imageBack}
-                        alt={`${activeProject.title} frame two`}
-                        className={`max-h-full w-full ${activeProject.fitBack} object-center`}
-                      />
+                    <div className="bg-black">
+                      <div className="flex items-center justify-between px-5 py-3 text-xs uppercase tracking-[0.22em] text-white/50 md:px-7">
+                        <span>Frame Two</span>
+                      </div>
+                      <div className="flex h-[28vh] items-center justify-center bg-black px-4 pb-4 md:h-[29vh] md:px-6 md:pb-6 xl:h-[29vh]">
+                        <img
+                          src={activeProject.imageBack}
+                          alt={`${activeProject.title} frame two`}
+                          className={`max-h-full w-full ${activeProject.fitBack} object-center`}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <div className="border-t border-white/10 px-5 py-5 md:px-7">
                   <p className="max-w-2xl text-base leading-7 text-white/72">{activeProject.desc}</p>
+                  <div className="mt-5 flex flex-wrap gap-3">
+                    <a
+                      href="#contact"
+                      onClick={() => setActiveProject(null)}
+                      className="rounded-full bg-amber-400 px-5 py-3 text-sm font-semibold text-black transition hover:scale-[1.02]"
+                    >
+                      Want this style? Book it
+                    </a>
+                    {activeProject.video && (
+                      <span className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white/60">
+                        Video autoplay enabled
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
