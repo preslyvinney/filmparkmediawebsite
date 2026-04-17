@@ -1,20 +1,40 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
+  metadataBase: new URL("https://filmparkmedia.com"),
   title: "Film Park Media",
-  description: "Cinematic content for brands that want to stand out.",
+  description:
+    "Cinematic video production for brands, weddings, sports, and story-driven content.",
+  openGraph: {
+    title: "Film Park Media",
+    description:
+      "Cinematic video production for brands, weddings, sports, and story-driven content.",
+    url: "https://filmparkmedia.com",
+    siteName: "Film Park Media",
+    images: [
+      {
+        url: "/filmpark-social-preview.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Film Park Media logo",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Film Park Media",
+    description:
+      "Cinematic video production for brands, weddings, sports, and story-driven content.",
+    images: ["/filmpark-social-preview.jpg"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -23,13 +43,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body suppressHydrationWarning className="min-h-full flex flex-col">
-        {children}
-      </body>
+    <html lang="en">
+      <body>{children}</body>
     </html>
   );
 }
