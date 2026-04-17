@@ -44,6 +44,7 @@ function RevealOnScroll({
     );
 
     observer.observe(node);
+
     return () => observer.disconnect();
   }, []);
 
@@ -148,7 +149,7 @@ function PortfolioCard({
             </div>
           </div>
 
-          <p className="max-w-sm leading-7 text-white/68">{item.desc}</p>
+          <p className="max-w-sm leading-7 text-white/[0.68]">{item.desc}</p>
 
           <button
             type="button"
@@ -240,7 +241,9 @@ export default function FilmParkMediaWebsite() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setActiveProject(null);
+      if (event.key === "Escape") {
+        setActiveProject(null);
+      }
     };
 
     window.addEventListener("keydown", onKeyDown);
@@ -379,7 +382,7 @@ export default function FilmParkMediaWebsite() {
           <header className="sticky top-0 z-50 border-b border-white/10 bg-neutral-950/80 backdrop-blur-xl">
             <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-black font-black text-sm">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-sm font-black text-black">
                   FPM
                 </div>
                 <div>
@@ -437,16 +440,19 @@ export default function FilmParkMediaWebsite() {
                       Co-Founded by Presly Vinney & Parker Gautney
                     </p>
                   </div>
+
                   <h1 className="max-w-2xl text-5xl font-black leading-[0.92] tracking-tight md:text-7xl">
                     Work that makes your brand feel bigger, sharper, and impossible
                     to scroll past.
                   </h1>
+
                   <p className="mt-6 max-w-xl text-lg leading-8 text-white/75 md:text-xl">
                     Film Park Media creates cinematic commercials, short form
                     content, wedding films, sports media, and story-driven visuals
                     for brands and people who are done settling for content that
                     feels small.
                   </p>
+
                   <div className="mt-8 flex flex-wrap gap-4">
                     <a
                       href="#contact"
@@ -461,6 +467,7 @@ export default function FilmParkMediaWebsite() {
                       Look at Our Portfolio
                     </a>
                   </div>
+
                   <div className="mt-8 grid max-w-xl grid-cols-1 gap-3 text-sm text-white/65 sm:grid-cols-3">
                     <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-sm">
                       <p className="text-lg font-bold text-white">Commercials</p>
@@ -486,12 +493,13 @@ export default function FilmParkMediaWebsite() {
 
                     <div className="relative flex items-center justify-center overflow-hidden rounded-[2.8rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01)),linear-gradient(145deg,#05070d,#0a0d16_45%,#07090f)] p-6 shadow-[0_40px_120px_rgba(0,0,0,0.72)] backdrop-blur-xl md:p-8">
                       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.05),transparent_34%)]" />
-                      <div className="absolute inset-[1px] rounded-[2.7rem] ring-1 ring-white/8" />
+                      <div className="absolute inset-[1px] rounded-[2.7rem] ring-1 ring-white/[0.08]" />
+
                       <a
                         href={instagramUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="cursor-pointer"
+                        className="block w-full cursor-pointer"
                         aria-label="Open Film Park Media Instagram"
                       >
                         <video
@@ -500,7 +508,7 @@ export default function FilmParkMediaWebsite() {
                           muted
                           loop
                           playsInline
-                          className="cinematic-video relative z-10 h-[420px] w-auto object-contain brightness-105 contrast-110 drop-shadow-[0_0_30px_rgba(255,255,255,0.18)] md:h-[500px]"
+                          className="cinematic-video relative z-10 mx-auto h-[420px] w-full max-w-[420px] object-contain brightness-105 contrast-110 drop-shadow-[0_0_30px_rgba(255,255,255,0.18)] md:h-[500px] md:max-w-[500px]"
                         />
                       </a>
                     </div>
@@ -559,7 +567,7 @@ export default function FilmParkMediaWebsite() {
                     You know your business is better than the content you’ve been
                     putting out.
                   </h2>
-                  <p className="mt-6 max-w-3xl text-lg leading-8 text-white/72">
+                  <p className="mt-6 max-w-3xl text-lg leading-8 text-white/[0.72]">
                     Maybe you’ve tried filming it yourself. Maybe you paid for
                     something that looked fine but didn’t really do anything. It’s
                     frustrating putting time and money into content that gets
@@ -573,7 +581,7 @@ export default function FilmParkMediaWebsite() {
               <RevealOnScroll delay={120}>
                 <div className="rounded-[2rem] border border-amber-300/20 bg-amber-300/5 p-7 backdrop-blur-sm">
                   <h3 className="text-2xl font-bold">What changes here</h3>
-                  <p className="mt-3 leading-7 text-white/72">
+                  <p className="mt-3 leading-7 text-white/[0.72]">
                     You get content with a plan behind it. Better pacing. Better
                     visuals. Better storytelling. Something that finally feels like
                     it fits the level of what you do.
@@ -594,7 +602,7 @@ export default function FilmParkMediaWebsite() {
                     We work well together because strong creative needs both vision
                     and follow-through.
                   </h2>
-                  <p className="mt-6 text-lg leading-8 text-white/72">
+                  <p className="mt-6 text-lg leading-8 text-white/[0.72]">
                     Presly leads with story, direction, and the creative instinct
                     behind the work. Parker helps keep projects moving, ideas sharp,
                     and execution locked in. That mix is a big part of why Film Park
@@ -615,6 +623,7 @@ export default function FilmParkMediaWebsite() {
                     </div>
                   </div>
                 </RevealOnScroll>
+
                 <RevealOnScroll delay={100}>
                   <div>
                     <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-300">
@@ -623,18 +632,18 @@ export default function FilmParkMediaWebsite() {
                     <h2 className="mt-3 text-4xl font-black tracking-tight md:text-5xl">
                       Started with a camera in high school. Never really stopped.
                     </h2>
-                    <p className="mt-6 text-lg leading-8 text-white/72">
+                    <p className="mt-6 text-lg leading-8 text-white/[0.72]">
                       Presly Vinney is the co-founder of Film Park Media. He got into
                       filmmaking back in high school and has been creating content
                       consistently for the past 3 years.
                     </p>
-                    <p className="mt-4 text-lg leading-8 text-white/72">
+                    <p className="mt-4 text-lg leading-8 text-white/[0.72]">
                       What started as making short films turned into a deeper
                       understanding of how to make people actually care about what
                       they’re watching. That same approach now goes into every
                       commercial, video, and project Film Park Media takes on.
                     </p>
-                    <p className="mt-4 text-lg leading-8 text-white/72">
+                    <p className="mt-4 text-lg leading-8 text-white/[0.72]">
                       The goal is simple. Make content that feels real, looks
                       cinematic, and actually gets attention.
                     </p>
@@ -652,23 +661,24 @@ export default function FilmParkMediaWebsite() {
                       The other half of Film Park Media making sure everything runs
                       right.
                     </h2>
-                    <p className="mt-6 text-lg leading-8 text-white/72">
+                    <p className="mt-6 text-lg leading-8 text-white/[0.72]">
                       Parker Gautney is the co-founder of Film Park Media. He plays a
                       huge role in making sure projects run smoothly from start to
                       finish.
                     </p>
-                    <p className="mt-4 text-lg leading-8 text-white/72">
+                    <p className="mt-4 text-lg leading-8 text-white/[0.72]">
                       From helping shape ideas to making sure execution is on point,
                       he brings balance to the creative process and keeps everything
                       moving the way it should.
                     </p>
-                    <p className="mt-4 text-lg leading-8 text-white/72">
+                    <p className="mt-4 text-lg leading-8 text-white/[0.72]">
                       Together, Presly and Parker focus on creating content that not
                       only looks good but actually works for the people they’re
                       creating it for.
                     </p>
                   </div>
                 </RevealOnScroll>
+
                 <RevealOnScroll delay={100}>
                   <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-4">
                     <div className="aspect-[4/5] overflow-hidden rounded-[1.5rem] border border-white/10 bg-gradient-to-br from-neutral-800 via-neutral-900 to-black">
@@ -780,7 +790,7 @@ export default function FilmParkMediaWebsite() {
                     <h2 className="mt-3 text-4xl font-black tracking-tight md:text-5xl">
                       A sharper, more cinematic look at the work.
                     </h2>
-                    <p className="mt-4 max-w-xl text-lg leading-8 text-white/68">
+                    <p className="mt-4 max-w-xl text-lg leading-8 text-white/[0.68]">
                       Think of this like a premium browse screen for Film Park
                       Media. Tap in, flip cards, and open each project for a bigger,
                       cleaner full-screen look.
@@ -833,7 +843,7 @@ export default function FilmParkMediaWebsite() {
                 <h2 className="mt-4 text-4xl font-black tracking-tight md:text-6xl">
                   Let’s make something people don’t forget.
                 </h2>
-                <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/72">
+                <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/[0.72]">
                   If you’re tired of content that feels small, flat, or easy to
                   skip, let’s change that. Book with Film Park Media and let’s build
                   something that actually gets attention.
@@ -866,12 +876,12 @@ export default function FilmParkMediaWebsite() {
                   <h2 className="mt-3 text-4xl font-black tracking-tight md:text-5xl">
                     Tell us what you’re trying to create.
                   </h2>
-                  <p className="mt-6 max-w-2xl text-lg leading-8 text-white/72">
+                  <p className="mt-6 max-w-2xl text-lg leading-8 text-white/[0.72]">
                     Need a commercial, short form package, wedding film, sports
                     video, or creative project? Reach out and let’s talk through the
                     idea, timeline, and next step.
                   </p>
-                  <div className="mt-8 space-y-3 text-white/72">
+                  <div className="mt-8 space-y-3 text-white/[0.72]">
                     <a
                       href={instagramUrl}
                       target="_blank"
@@ -904,6 +914,7 @@ export default function FilmParkMediaWebsite() {
                         placeholder="Your name"
                       />
                     </div>
+
                     <div>
                       <label className="mb-2 block text-sm font-medium text-white/75">
                         Email
@@ -916,6 +927,7 @@ export default function FilmParkMediaWebsite() {
                         placeholder="you@example.com"
                       />
                     </div>
+
                     <div>
                       <label className="mb-2 block text-sm font-medium text-white/75">
                         Project Type
@@ -932,6 +944,7 @@ export default function FilmParkMediaWebsite() {
                         <option>Not Sure Yet</option>
                       </select>
                     </div>
+
                     <div>
                       <label className="mb-2 block text-sm font-medium text-white/75">
                         Message
@@ -944,11 +957,13 @@ export default function FilmParkMediaWebsite() {
                         placeholder="Tell us what you’re trying to make"
                       />
                     </div>
+
                     <input
                       type="hidden"
                       name="_subject"
                       value="New Film Park Media project inquiry"
                     />
+
                     <button
                       type="submit"
                       className="w-full rounded-2xl bg-amber-400 px-6 py-4 font-semibold text-black transition hover:scale-[1.01]"
@@ -979,6 +994,7 @@ export default function FilmParkMediaWebsite() {
                       {activeProject.title}
                     </h3>
                   </div>
+
                   <button
                     type="button"
                     onClick={() => setActiveProject(null)}
@@ -995,6 +1011,7 @@ export default function FilmParkMediaWebsite() {
                         {activeProject.video ? "Highlight Reel" : "Frame One"}
                       </span>
                     </div>
+
                     <div className="flex h-[34vh] items-center justify-center bg-black px-4 pb-4 md:h-[58vh] md:px-6 md:pb-6">
                       {activeProject.video ? (
                         <div className="relative h-full w-full">
@@ -1050,7 +1067,7 @@ export default function FilmParkMediaWebsite() {
                 </div>
 
                 <div className="border-t border-white/10 px-5 py-5 md:px-7">
-                  <p className="max-w-2xl text-base leading-7 text-white/72">
+                  <p className="max-w-2xl text-base leading-7 text-white/[0.72]">
                     {activeProject.desc}
                   </p>
                   <div className="mt-5 flex flex-wrap gap-3">
