@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { track } from "@vercel/analytics";
 
 type Service = {
   title: string;
@@ -153,7 +154,13 @@ function PortfolioCard({
 
           <button
             type="button"
-            onClick={() => onOpen(item)}
+            onClick={() => {
+              track("portfolio_full_view_open", {
+                project_title: item.title,
+                project_category: item.category,
+              });
+              onOpen(item);
+            }}
             className="mt-6 inline-flex rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
           >
             Open full view
@@ -399,7 +406,11 @@ export default function FilmParkMediaWebsite() {
                 <a href="#services" className="transition hover:text-white">
                   Services
                 </a>
-                <a href="#portfolio" className="transition hover:text-white">
+                <a
+                  href="#portfolio"
+                  className="transition hover:text-white"
+                  onClick={() => track("portfolio_view_click", { location: "header_nav" })}
+                >
                   Portfolio
                 </a>
                 <a href="#about" className="transition hover:text-white">
@@ -412,6 +423,7 @@ export default function FilmParkMediaWebsite() {
                   href={instagramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => track("instagram_click", { location: "header_nav" })}
                   className="rounded-xl border border-white/10 px-4 py-2 text-sm text-white transition hover:border-white/20 hover:bg-white/10"
                 >
                   Instagram
@@ -420,6 +432,7 @@ export default function FilmParkMediaWebsite() {
 
               <a
                 href="#contact"
+                onClick={() => track("book_now_click", { location: "header_cta" })}
                 className="rounded-2xl bg-amber-400 px-5 py-3 text-sm font-semibold text-black transition hover:scale-[1.02]"
               >
                 Book With Us
@@ -456,12 +469,14 @@ export default function FilmParkMediaWebsite() {
                   <div className="mt-8 flex flex-wrap gap-4">
                     <a
                       href="#contact"
+                      onClick={() => track("book_now_click", { location: "hero_cta" })}
                       className="rounded-2xl bg-amber-400 px-6 py-4 font-semibold text-black shadow-[0_10px_30px_rgba(250,204,21,0.18)] transition hover:scale-[1.02]"
                     >
                       Book With Us
                     </a>
                     <a
                       href="#portfolio"
+                      onClick={() => track("portfolio_view_click", { location: "hero_cta" })}
                       className="rounded-2xl border border-white/15 bg-white/[0.02] px-6 py-4 font-semibold text-white backdrop-blur-sm transition hover:bg-white/5"
                     >
                       Look at Our Portfolio
@@ -499,6 +514,10 @@ export default function FilmParkMediaWebsite() {
                         href={instagramUrl}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => {
+                          track("intro_video_click");
+                          track("instagram_click", { location: "hero_video" });
+                        }}
                         className="block w-full cursor-pointer"
                         aria-label="Open Film Park Media Instagram"
                       >
@@ -708,6 +727,7 @@ export default function FilmParkMediaWebsite() {
                   </div>
                   <a
                     href="#contact"
+                    onClick={() => track("book_now_click", { location: "process_section" })}
                     className="rounded-2xl bg-amber-400 px-6 py-4 font-semibold text-black transition hover:scale-[1.02]"
                   >
                     Book With Us
@@ -766,6 +786,9 @@ export default function FilmParkMediaWebsite() {
                     <p className="mt-3 leading-7 text-white/70">{service.desc}</p>
                     <a
                       href="#contact"
+                      onClick={() =>
+                        track("service_inquiry_click", { service: service.title })
+                      }
                       className="mt-6 inline-flex text-sm font-semibold text-amber-300 hover:text-amber-200"
                     >
                       Ask about {service.title.toLowerCase()} →
@@ -809,6 +832,12 @@ export default function FilmParkMediaWebsite() {
                       <a
                         key={item.title}
                         href={`#portfolio-card-${idx}`}
+                        onClick={() =>
+                          track("portfolio_quick_nav_click", {
+                            project_title: item.title,
+                            project_category: item.category,
+                          })
+                        }
                         className="whitespace-nowrap rounded-full border border-white/10 bg-black/20 px-4 py-2 transition hover:border-white/20 hover:bg-white/[0.05]"
                       >
                         {item.category}
@@ -851,12 +880,14 @@ export default function FilmParkMediaWebsite() {
                 <div className="mt-8 flex flex-wrap justify-center gap-4">
                   <a
                     href="#contact"
+                    onClick={() => track("book_now_click", { location: "bottom_cta" })}
                     className="rounded-2xl bg-amber-400 px-6 py-4 font-semibold text-black transition hover:scale-[1.02]"
                   >
                     Book With Us
                   </a>
                   <a
                     href="#portfolio"
+                    onClick={() => track("portfolio_view_click", { location: "bottom_cta" })}
                     className="rounded-2xl border border-white/15 px-6 py-4 font-semibold text-white transition hover:bg-white/5"
                   >
                     See the Portfolio
@@ -886,6 +917,7 @@ export default function FilmParkMediaWebsite() {
                       href={instagramUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => track("instagram_click", { location: "contact_section" })}
                       className="block transition hover:text-amber-300"
                     >
                       Instagram: @filmparkmedia
@@ -901,6 +933,7 @@ export default function FilmParkMediaWebsite() {
                   <form
                     action="https://formspree.io/f/xwvalbdr"
                     method="POST"
+                    onSubmit={() => track("contact_submit")}
                     className="space-y-4"
                   >
                     <div>
@@ -1073,7 +1106,13 @@ export default function FilmParkMediaWebsite() {
                   <div className="mt-5 flex flex-wrap gap-3">
                     <a
                       href="#contact"
-                      onClick={() => setActiveProject(null)}
+                      onClick={() => {
+                        track("portfolio_style_book_click", {
+                          project_title: activeProject.title,
+                          project_category: activeProject.category,
+                        });
+                        setActiveProject(null);
+                      }}
                       className="rounded-full bg-amber-400 px-5 py-3 text-sm font-semibold text-black transition hover:scale-[1.02]"
                     >
                       Want this style? Book it
